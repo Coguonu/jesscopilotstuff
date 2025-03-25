@@ -1,0 +1,101 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Corner</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #4169E1; /* Royal Blue */
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            padding: 3rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+        }
+        h1 {
+            color: #d4af37; /* Gold */
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .coffee-bean {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        p {
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .coffee-types {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .coffee-type {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            flex: 1 1 200px;
+        }
+        .coffee-type h3 {
+            color: #d4af37;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Royal Coffee Experience</h1>
+        <div class="coffee-bean">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <path d="M50,10 C70,10 80,30 80,50 C80,70 70,90 50,90 C30,90 20,70 20,50 C20,30 30,10 50,10 Z" fill="#6F4E37"/>
+                <path d="M50,20 C65,20 70,35 70,50 C70,65 65,80 50,80 C35,80 30,65 30,50 C30,35 35,20 50,20 Z" fill="#4a2c17"/>
+                <path d="M50,30 C60,30 60,40 60,50 C60,60 60,70 50,70 C40,70 40,60 40,50 C40,40 40,30 50,30 Z" fill="#6F4E37"/>
+            </svg>
+        </div>
+        <p>Welcome to our coffee sanctuary, where every cup tells a story of carefully selected beans from around the world, meticulously roasted to perfection.</p>
+        
+        <p>Coffee is more than just a beverage; it's a ritual that brings people together, sparks conversations, and fuels creativity. From the misty mountains of Colombia to the volcanic soils of Ethiopia, our coffee journey spans continents to bring you the finest flavors nature has to offer.</p>
+        
+        <div class="coffee-types">
+            <div class="coffee-type">
+                <h3>Espresso</h3>
+                <p>The essence of coffee, concentrated and bold. The foundation of many beloved coffee drinks.</p>
+            </div>
+            
+            <div class="coffee-type">
+                <h3>Pour Over</h3>
+                <p>A methodical brewing process that highlights the nuanced flavors and aromas of single-origin beans.</p>
+            </div>
+            
+            <div class="coffee-type">
+                <h3>Cold Brew</h3>
+                <p>Steeped for hours in cold water, resulting in a smooth, less acidic coffee experience with subtle sweetness.</p>
+            </div>
+        </div>
+        
+        <p>Whether you're a casual coffee drinker or a dedicated aficionado, we invite you to explore the rich world of coffee with us.</p>
+    </div>
+</body>
+</html>

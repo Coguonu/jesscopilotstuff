@@ -1,0 +1,126 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "webAppName": {
+        "type": "string",
+        "defaultValue": "coffee-website",
+        "metadata": {
+          "description": "Base name of the resource"
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "eastus2",
+        "metadata": {
+          "description": "Location for all resources"
+        }
+      },
+      "sku": {
+        "type": "string",
+        "defaultValue": "F1",
+        "allowedValues": [
+          "F1",
+          "D1",
+          "B1",
+          "B2",
+          "B3",
+          "S1",
+          "S2",
+          "S3",
+          "P1",
+          "P2",
+          "P3",
+          "P4"
+        ],
+        "metadata": {
+          "description": "App Service Plan SKU"
+        }
+      },
+      "linuxFxVersion": {
+        "type": "string",
+        "defaultValue": "NODE|18-lts",
+        "metadata": {
+          "description": "The Runtime stack of current web app"
+        }
+      },
+      "repoUrl": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "GitHub repository URL, if you choose to deploy from GitHub"
+        }
+      },
+      "repoBranch": {
+        "type": "string",
+        "defaultValue": "main",
+        "metadata": {
+          "description": "GitHub repository branch"
+        }
+      }
+    },
+    "variables": {
+      "appServicePlanName": "[concat(parameters('webAppName'), '-plan')]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2020-12-01",
+        "name": "[variables('appServicePlanName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "[parameters('sku')]"
+        },
+        "kind": "linux",
+        "properties": {
+          "reserved": true
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2020-12-01",
+        "name": "[parameters('webAppName')]",
+        "location": "[parameters('location')]",
+        "kind": "app,linux",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+        ],
+        "properties": {
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+          "siteConfig": {
+            "linuxFxVersion": "[parameters('linuxFxVersion')]",
+            "alwaysOn": "[not(equals(parameters('sku'), 'F1'))]",
+            "appSettings": [
+              {
+                "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                "value": "~18"
+              }
+            ]
+          }
+        },
+        "resources": [
+          {
+            "condition": "[not(empty(parameters('repoUrl')))]",
+            "type": "sourcecontrols",
+            "apiVersion": "2020-12-01",
+            "name": "web",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('webAppName'))]"
+            ],
+            "properties": {
+              "repoUrl": "[parameters('repoUrl')]",
+              "branch": "[parameters('repoBranch')]",
+              "isManualIntegration": true
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "webAppUrl": {
+        "type": "string",
+        "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', parameters('webAppName'))).defaultHostName)]"
+      }
+    }
+  }
